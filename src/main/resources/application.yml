@@ -13,3 +13,7 @@ spring:
   jpa:
     database: mysql
     show-sql: true
+jwt:
+  config:
+     key: twinkle_william
+     ttl: 3600000

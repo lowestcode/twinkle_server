@@ -9,6 +9,9 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 import java.io.Serializable;
 
+/***
+ * 分类实体类
+ */
 @Entity
 @Data
 @Table(name = "twinkle_label")

@@ -8,6 +8,9 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import java.io.Serializable;
 
+/**
+ * 文章实体类
+ */
 @Entity
 @Data
 public class Article implements Serializable {

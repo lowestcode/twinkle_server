@@ -4,6 +4,7 @@ import com.twinkle.pojo.Label;
 import com.twinkle.result.Result;
 import com.twinkle.result.StatusCode;
 import com.twinkle.service.LabelService;
+import com.twinkle.util.JwtUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -14,6 +15,9 @@ public class LabelController {
 
     @Autowired
     private LabelService labelService;
+
+    @Autowired
+    private JwtUtil jwtUtil;
 
     /**
      * 添加分类
