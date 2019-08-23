@@ -20,7 +20,6 @@ import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 @Service
 @Transactional
@@ -45,6 +44,7 @@ public class ArticleService {
         article.setVisits(0);
         article.setThumbup(0);
         article.setComment(0);
+        article.setState("0");
         articleDao.save(article);
     }
 
@@ -70,8 +70,13 @@ public class ArticleService {
      * @param article
      * @return
      */
-    public Article findBySingleArticle(HashMap<String, String> article) {
-        return articleDao.findOne(createSpecification(article)).get();
+    public List<Article> findBySingleArticle(HashMap<String, String> article) {
+        try {
+            return articleDao.findAll(createSpecification(article));
+        }catch (Exception e){
+            return null;
+        }
+
     }
 
     /**
@@ -89,16 +94,14 @@ public class ArticleService {
                 @Override
                 public Predicate toPredicate(Root<Article> root, CriteriaQuery<?> criteriaQuery, CriteriaBuilder criteriaBuilder) {
                     List<Predicate> list = new ArrayList<>();
-                    System.out.println("article" + article);
-                    System.out.println("article" + article.get("labelId"));
                     list.add(criteriaBuilder.equal(root.get("labelId").as(String.class), article.get("labelId")));
+                    list.add(criteriaBuilder.equal(root.get("state").as(String.class), 1));
                     Predicate[] p = new Predicate[list.size()];
                     return criteriaBuilder.and(list.toArray(p));
                 }
             };
             Page<Article> pageList = articleDao.findAll(specification, pageable);
             return pageList;
-
         }
         Page<Article> pageList = articleDao.findAll(pageable);
         return pageList;
@@ -117,15 +120,28 @@ public class ArticleService {
             public Predicate toPredicate(Root<Article> root, CriteriaQuery<?> criteriaQuery, CriteriaBuilder criteriaBuilder) {
                 List<Predicate> list = new ArrayList<>();
                 if (!article.get("title").isEmpty()) {
-                    list.add(criteriaBuilder.equal(root.get("title").as(String.class), article.get("title")));
+                    list.add(criteriaBuilder.like(root.get("title").as(String.class), "%"+article.get("title")+"%"));
                 }
                 if (!article.get("articleId").isEmpty()) {
                     list.add(criteriaBuilder.equal(root.get("articleId").as(String.class), article.get("articleId")));
                 }
+                list.add(criteriaBuilder.equal(root.get("state").as(String.class), 1));
                 Predicate[] p = new Predicate[list.size()];
                 return criteriaBuilder.and(list.toArray(p));
             }
         };
         return specification;
+    }
+
+    /**
+     * 更新审核状态
+     */
+    public void updateState(String articleId,int state){
+        articleDao.updateState(articleId,state);
+    }
+
+    public void addThumbup(String articleId){
+        articleDao.addThumbup(articleId);
+
     }
 }

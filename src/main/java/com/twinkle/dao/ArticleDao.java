@@ -18,7 +18,7 @@ public interface ArticleDao extends JpaRepository<Article, String>, JpaSpecifica
      */
     @Modifying
     @Query(value = "UPDATE twinkle_article SET state=:state WHERE article_id=:articleId", nativeQuery = true)
-    public void updateState(@Param("articleId") int articleId, @Param("state") int state);
+    public void updateState(@Param("articleId") String articleId, @Param("state") int state);
 
     /**
      * 点赞
@@ -27,5 +27,5 @@ public interface ArticleDao extends JpaRepository<Article, String>, JpaSpecifica
      */
     @Modifying
     @Query(value = "UPDATE twinkle_article SET thumbup=thumbup+1 WHERE article_id= :articleId", nativeQuery = true)
-    public void addThumbup(@Param("articleId") int articleId);
+    public void addThumbup(@Param("articleId") String articleId);
 }
