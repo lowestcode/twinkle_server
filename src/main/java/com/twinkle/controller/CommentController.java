@@ -79,7 +79,17 @@ public class CommentController {
      */
     @RequestMapping(value = "/{articleId}/{page}/{size}", method = RequestMethod.GET)
     public Result findyArticleId(@PathVariable String articleId, @PathVariable("page") int page, @PathVariable("size") int size) {
-        Page<Comment> comments = commentService.findByArticleId(articleId, page, size);
-        return new Result(true, StatusCode.OK, "删除成功", new PageResult<Comment>(comments.getTotalElements(),comments.getContent()));
+        Page<Comment> comments = commentService.findByArticleIdAndStateEquals(articleId, page, size);
+        return new Result(true, StatusCode.OK, "查询成功", new PageResult<Comment>(comments.getTotalElements(),comments.getContent()));
+    }
+
+    /**
+     *  评论通过审核
+     */
+    @RequestMapping(value = "/{id}/{state}", method = RequestMethod.PUT)
+    public Result findyArticleId(@PathVariable("id") String id,@PathVariable("state") String state,@RequestBody Comment comment) {
+        commentService.updateState(id,state,comment);
+        return new Result(true, StatusCode.OK, "更新成功");
+
     }
 }

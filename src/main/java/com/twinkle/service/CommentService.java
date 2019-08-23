@@ -50,12 +50,12 @@ public class CommentService {
 
     /**
      * 增加
-     *
      * @param comment
      */
     public void add(Comment comment) {
         comment.set_id(idWorker.nextId() + "");
         comment.setCreateTime(dateUtil.returnDate());
+        comment.setState("0");
         commentDao.save(comment);
         articleService.addComment(comment.getArticleId(), 1);
     }
@@ -86,8 +86,18 @@ public class CommentService {
      *
      * @param articleId
      */
-    public Page<Comment> findByArticleId(String articleId, int page, int size) {
+    public Page<Comment> findByArticleIdAndStateEquals(String articleId, int page, int size) {
         PageRequest pageRequest = PageRequest.of(page - 1, size);
-        return commentDao.findByArticleId(articleId, pageRequest);
+        return commentDao.findByArticleIdAndStateEquals(articleId, "1",pageRequest);
+    }
+
+    /**
+     *  评论通过审核
+     *
+     */
+    public void updateState(String id,String state,Comment comment) {
+        comment.set_id(id);
+        comment.setState(state);
+        commentDao.save(comment);
     }
 }

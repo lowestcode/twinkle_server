@@ -14,5 +14,5 @@ public interface CommentDao extends MongoRepository<Comment,String> {
      * @param pageable
      * @return
      */
-    public Page<Comment> findByArticleId(String articleId, Pageable pageable);
+    public Page<Comment> findByArticleIdAndStateEquals(String articleId, String state,Pageable pageable);
 }
