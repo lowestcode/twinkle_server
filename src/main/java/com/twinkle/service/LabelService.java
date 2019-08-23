@@ -3,10 +3,7 @@ package com.twinkle.service;
 import com.twinkle.dao.LabelDao;
 import com.twinkle.pojo.Label;
 import com.twinkle.util.IdWorker;
-import com.twinkle.util.JwtUtil;
-import io.jsonwebtoken.Claims;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpRequest;
 import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpServletRequest;
@@ -23,12 +20,9 @@ public class LabelService {
     @Autowired
     private IdWorker idWorker;
 
-    //通过request获取请求偷
     @Autowired
     private HttpServletRequest httpRequest;
 
-    @Autowired
-    private JwtUtil jwtUtil;
 
     /**
      * 保存分类
@@ -49,7 +43,6 @@ public class LabelService {
      */
     public void delete(String labelName) {
         String admin_claims = (String) httpRequest.getAttribute("admin_claims");
-        System.out.println(admin_claims);
         if(admin_claims.isEmpty()){
             throw new RuntimeException("权限不足");
         }
