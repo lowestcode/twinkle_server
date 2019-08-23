@@ -140,8 +140,22 @@ public class ArticleService {
         articleDao.updateState(articleId,state);
     }
 
-    public void addThumbup(String articleId){
-        articleDao.addThumbup(articleId);
+    /**
+     * 更新点赞数
+     * @param articleId
+     * @param addNum
+     */
+    public void addThumbup(String articleId,int addNum){
+        articleDao.addThumbup(articleId,addNum);
 
+    }
+
+    /**
+     * 更新评论数
+     * @param articleId
+     * @param addNum
+     */
+    public void addComment(String articleId,int addNum) {
+        articleDao.addComment(articleId,addNum);
     }
 }

@@ -1,7 +1,6 @@
 package com.twinkle.service;
 
 import com.twinkle.dao.AdminDao;
-import com.twinkle.dao.UserDao;
 import com.twinkle.pojo.User;
 import com.twinkle.util.DateUtil;
 import com.twinkle.util.IdWorker;

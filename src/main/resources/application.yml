@@ -16,6 +16,11 @@ spring:
   redis:
     host: 192.168.153.128
     port: 6379
+  data:
+    mongodb:
+      database: Twinkele_Mongo
+      host: 192.168.153.128
+      port: 27017
 jwt:
   config:
      key: twinkle_william

@@ -81,9 +81,18 @@ public class ArticleController {
     /**
      * 更新文章点赞数量
      */
-    @RequestMapping(value = "/addThumbup/{articleId}", method = RequestMethod.PUT)
-    public Result addThumbup(@PathVariable("articleId") String articleId) {
-        articleService.addThumbup(articleId);
+    @RequestMapping(value = "/addThumbup/{articleId}/{addNum}", method = RequestMethod.PUT)
+    public Result addThumbup(@PathVariable("articleId") String articleId,@PathVariable("addNum") int addNum) {
+        articleService.addThumbup(articleId,addNum);
         return new Result(true, StatusCode.OK, "点赞成功");
     }
+
+    /**
+     * 更新文章评论数量
+     */
+//    @RequestMapping(value = "/addThumbup/{articleId}", method = RequestMethod.PUT)
+//    public Result addComment(@PathVariable("articleId") String articleId) {
+//        articleService.addComment(articleId);
+//        return new Result(true, StatusCode.OK, "添加文章数量成功");
+//    }
 }
