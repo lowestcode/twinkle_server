@@ -158,4 +158,12 @@ public class ArticleService {
     public void addComment(String articleId,int addNum) {
         articleDao.addComment(articleId,addNum);
     }
+
+    /**
+     * 更新文章浏览数量
+     * @param articleId
+     */
+    public void addVisits(String articleId) {
+        articleDao.addVisits(articleId);
+    }
 }

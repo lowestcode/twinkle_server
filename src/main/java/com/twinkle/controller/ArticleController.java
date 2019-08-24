@@ -95,4 +95,14 @@ public class ArticleController {
 //        articleService.addComment(articleId);
 //        return new Result(true, StatusCode.OK, "添加文章数量成功");
 //    }
+
+
+    /**
+     * 更新文章浏览数量
+     */
+    @RequestMapping(value = "/addComment/{articleId}", method = RequestMethod.PUT)
+    public Result addComment(@PathVariable("articleId") String articleId) {
+        articleService.addVisits(articleId);
+        return new Result(true, StatusCode.OK, "浏览数量添加成功");
+    }
 }
