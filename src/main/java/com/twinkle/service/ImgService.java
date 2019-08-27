@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.transaction.Transactional;
+import java.util.List;
 
 @Service
 @Transactional
@@ -38,8 +39,8 @@ public class ImgService {
     public void saveImg(Img img, MultipartFile file) {
         String fileName = idWorker.nextId()+"";
         try {
-            img.setImage_id(fileName);
-            img.setImage_url(qiniuUpload.updateFile(file,fileName));
+            img.setName(fileName);
+            img.setUrl(qiniuUpload.updateFile(file,fileName));
             imgDao.save(img);
         } catch (Exception e) {
             e.printStackTrace();
@@ -64,5 +65,9 @@ public class ImgService {
     public Page<Img> findAll(int page, int size) {
         Pageable pageable = PageRequest.of(page - 1, size);
         return imgDao.findAll(pageable);
+    }
+
+    public List<Img> findImg() {
+        return imgDao.findAll();
     }
 }

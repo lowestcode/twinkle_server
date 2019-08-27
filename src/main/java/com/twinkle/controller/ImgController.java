@@ -19,7 +19,7 @@ public class ImgController {
     private ImgService imgService;
 
 
-    @RequestMapping(method = RequestMethod.PUT)
+    @RequestMapping(method = RequestMethod.POST)
     public Result saveImg(@RequestParam("image") MultipartFile file){
         imgService.saveImg(new Img(),file);
         return new Result(true, StatusCode.SAVESUCCESS, "保存成功");
@@ -34,6 +34,12 @@ public class ImgController {
     @RequestMapping(value = "/findAll/{page}/{size}", method = RequestMethod.GET)
     public Result findAll(@PathVariable("page") int page, @PathVariable("size") int size){
         Page<Img> pageData = imgService.findAll(page, size);
-        return new Result(true, StatusCode.OK, "查询文章成功", new PageResult<Img>(pageData.getTotalElements(), pageData.getContent()));
+        return new Result(true, StatusCode.OK, "查询图片列表成功", new PageResult<Img>(pageData.getTotalElements(), pageData.getContent()));
+    }
+
+    @RequestMapping(method = RequestMethod.GET)
+    public Result findImg(){
+        return new Result(true, StatusCode.OK, "查询成功",imgService.findImg()
+        );
     }
 }

@@ -14,8 +14,8 @@ import java.io.Serializable;
 public class Img implements Serializable {
 
     @Id
-    @Column(name = "image_id")
-    private String image_id;
+    @Column(name = "name")
+    private String name;
 
-    private String image_url;
+    private String url;
 }

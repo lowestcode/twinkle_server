@@ -56,6 +56,7 @@ public class CommentService {
         comment.set_id(idWorker.nextId() + "");
         comment.setCreateTime(dateUtil.returnDate());
         comment.setState("0");
+        comment.setParentId("root");
         commentDao.save(comment);
         articleService.addComment(comment.getArticleId(), 1);
     }
@@ -96,7 +97,14 @@ public class CommentService {
      *
      */
     public void updateState(String id,String state,Comment comment) {
+        Comment comment1 = findById(id);
         comment.set_id(id);
+        comment.setParentId("root");
+        comment.setArticleId(comment1.getArticleId());
+        comment.setCreateTime(comment1.getCreateTime());
+        comment.setContent(comment1.getContent());
+        comment.setNickname(comment1.getNickname());
+        comment.setArticleName(comment1.getArticleName());
         comment.setState(state);
         commentDao.save(comment);
     }

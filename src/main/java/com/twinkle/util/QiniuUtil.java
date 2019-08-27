@@ -19,12 +19,10 @@ public class QiniuUtil {
     Auth auth = Auth.create(accessKey, secretKey);
     BucketManager bucketManager = new BucketManager(auth, cfg);
 
-    public void getImgList(){
+    public void getImgList(String[] arr){
         try {
             //单次批量请求的文件数量不得超过1000
-            String[] keyList = new String[]{
-                    "abc"
-            };
+            String[] keyList = arr;
             BucketManager.BatchOperations batchOperations = new BucketManager.BatchOperations();
             batchOperations.addStatOps(bucket, keyList);
             Response response = bucketManager.batch(batchOperations);

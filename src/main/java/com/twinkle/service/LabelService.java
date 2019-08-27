@@ -30,6 +30,10 @@ public class LabelService {
      * @param label
      */
     public void save(Label label) {
+        String admin_claims = (String) httpRequest.getAttribute("admin_claims");
+        if(admin_claims.isEmpty()){
+            throw new RuntimeException("权限不足");
+        }
         label.setLabelId(idWorker.nextId() + "");
         label.setLabelName(label.getLabelName().toLowerCase());
         labelDao.save(label);
