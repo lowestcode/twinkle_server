@@ -10,6 +10,9 @@ import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.HashMap;
+import java.util.Map;
+
 @RestController
 @RequestMapping("/image")
 @CrossOrigin
@@ -21,8 +24,11 @@ public class ImgController {
 
     @RequestMapping(method = RequestMethod.POST)
     public Result saveImg(@RequestParam("image") MultipartFile file){
-        imgService.saveImg(new Img(),file);
-        return new Result(true, StatusCode.SAVESUCCESS, "保存成功");
+        System.out.println(file);
+        String s = imgService.saveImg(new Img(), file);
+        Map<String,String> map = new HashMap<>();
+        map.put("url",s);
+        return new Result(true, StatusCode.SAVESUCCESS, "保存成功",map);
     }
 
     @RequestMapping(value = "/{imageId}",method = RequestMethod.DELETE)
@@ -39,7 +45,6 @@ public class ImgController {
 
     @RequestMapping(method = RequestMethod.GET)
     public Result findImg(){
-        return new Result(true, StatusCode.OK, "查询成功",imgService.findImg()
-        );
+        return new Result(true, StatusCode.OK, "查询成功",imgService.findImg());
     }
 }

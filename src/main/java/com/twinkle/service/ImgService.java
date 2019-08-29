@@ -36,15 +36,18 @@ public class ImgService {
      * @param img
      * @param file
      */
-    public void saveImg(Img img, MultipartFile file) {
+    public String saveImg(Img img, MultipartFile file) {
         String fileName = idWorker.nextId()+"";
         try {
+            String url = qiniuUpload.updateFile(file,fileName);
             img.setName(fileName);
-            img.setUrl(qiniuUpload.updateFile(file,fileName));
+            img.setUrl(url);
             imgDao.save(img);
+            return url;
         } catch (Exception e) {
             e.printStackTrace();
         }
+        return null;
     }
 
     /**

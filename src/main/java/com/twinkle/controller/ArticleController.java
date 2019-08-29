@@ -11,6 +11,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/article")
@@ -19,6 +20,20 @@ public class ArticleController {
 
     @Autowired
     private ArticleService articleService;
+
+
+    /**
+     * 查找所有文章
+     * @param page
+     * @param size
+     * @return
+     */
+    @RequestMapping(value = "/findAll/{page}/{size}",method = RequestMethod.GET)
+    public Result findAll(@PathVariable("page") int page, @PathVariable("size") int size){
+        Page<Article> pageData = articleService.findAll( page, size);
+        return new Result(true, StatusCode.OK, "查询文章成功", new PageResult<Article>(pageData.getTotalElements(), pageData.getContent()));
+
+    }
 
     /**
      * 添加文章
@@ -56,8 +71,9 @@ public class ArticleController {
      * 查询单个文章(通过文章名称和文章id)
      */
     @RequestMapping(value = "/searchOne", method = RequestMethod.GET)
-    public Result findBySingleArticle(@RequestBody HashMap<String, String> article) {
-        return new Result(true, StatusCode.OK, "查询文章成功", articleService.findBySingleArticle(article));
+    public Result findBySingleArticle(@RequestParam("articleId") String articleId) {
+        Optional<Article> bySingleArticle = articleService.findBySingleArticle(articleId);
+        return new Result(true, StatusCode.OK, "查询文章成功", bySingleArticle);
     }
 
     /**

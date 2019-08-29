@@ -20,6 +20,7 @@ import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @Transactional
@@ -67,15 +68,12 @@ public class ArticleService {
     /**
      * 根据文章名称或者id查找文章
      *
-     * @param article
+     * @param
      * @return
      */
-    public List<Article> findBySingleArticle(HashMap<String, String> article) {
-        try {
-            return articleDao.findAll(createSpecification(article));
-        }catch (Exception e){
-            return null;
-        }
+    public Optional<Article> findBySingleArticle(String articleId) {
+        Optional<Article> article = articleDao.findById(articleId);
+        return article;
 
     }
 
@@ -110,28 +108,28 @@ public class ArticleService {
     /**
      * 创建Specification
      *
-     * @param article
+     * @param
      * @return
      */
-    private Specification<Article> createSpecification(HashMap<String, String> article) {
-
-        Specification<Article> specification = new Specification<Article>() {
-            @Override
-            public Predicate toPredicate(Root<Article> root, CriteriaQuery<?> criteriaQuery, CriteriaBuilder criteriaBuilder) {
-                List<Predicate> list = new ArrayList<>();
-                if (!article.get("title").isEmpty()) {
-                    list.add(criteriaBuilder.like(root.get("title").as(String.class), "%"+article.get("title")+"%"));
-                }
-                if (!article.get("articleId").isEmpty()) {
-                    list.add(criteriaBuilder.equal(root.get("articleId").as(String.class), article.get("articleId")));
-                }
-                list.add(criteriaBuilder.equal(root.get("state").as(String.class), 1));
-                Predicate[] p = new Predicate[list.size()];
-                return criteriaBuilder.and(list.toArray(p));
-            }
-        };
-        return specification;
-    }
+//    private Specification<Article> createSpecification(String articleId,String title) {
+//
+//        Specification<Article> specification = new Specification<Article>() {
+//            @Override
+//            public Predicate toPredicate(Root<Article> root, CriteriaQuery<?> criteriaQuery, CriteriaBuilder criteriaBuilder) {
+//                List<Predicate> list = new ArrayList<>();
+//                if (title.isEmpty()) {
+//                    list.add(criteriaBuilder.like(root.get("title").as(String.class), "%"+title+"%"));
+//                }
+//                if (articleId.isEmpty()) {
+//                    list.add(criteriaBuilder.equal(root.get("articleId").as(String.class),articleId));
+//                }
+//                list.add(criteriaBuilder.equal(root.get("state").as(String.class), 1));
+//                Predicate[] p = new Predicate[list.size()];
+//                return criteriaBuilder.and(list.toArray(p));
+//            }
+//        };
+//        return specification;
+//    }
 
     /**
      * 更新审核状态
@@ -165,5 +163,11 @@ public class ArticleService {
      */
     public void addVisits(String articleId) {
         articleDao.addVisits(articleId);
+    }
+
+
+    public Page<Article> findAll(int page, int size){
+        Pageable pageable = PageRequest.of(page - 1, size);
+        return articleDao.findAll(pageable);
     }
 }

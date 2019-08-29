@@ -50,4 +50,6 @@ public class Article implements Serializable {
     private String url;
 
     private String type;
+
+    private String markDown;
 }
